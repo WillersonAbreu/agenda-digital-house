@@ -14,17 +14,17 @@ import org.springframework.stereotype.Service;
 @Service
 public class JwtUserDetailsService implements UserDetailsService {
   @Autowired
-  private AdminRespository usuarioRepository;
+  private AdminRespository adminRepository;
 
   @Override
   public UserDetails loadUserByUsername(String name)
     throws UsernameNotFoundException {
-    Optional<Admin> usuario = usuarioRepository.findByName(name);
+    Optional<Admin> admin = adminRepository.findByName(name);
 
-    if (usuario.isPresent()) {
+    if (admin.isPresent()) {
       return new User(
-        usuario.get().getName(),
-        usuario.get().getPassword(),
+        admin.get().getName(),
+        admin.get().getPassword(),
         new ArrayList<>()
       );
     } else {

@@ -7,9 +7,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "emails")
+@AllArgsConstructor
+@NoArgsConstructor
 public class Email implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,8 +23,6 @@ public class Email implements Serializable {
 
   @ManyToOne
   private Contact contact;
-
-  protected Email() {}
 
   public Integer getId() {
     return id;
