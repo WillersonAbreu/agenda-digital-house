@@ -3,20 +3,33 @@ package br.com.santander.agenda.controller;
 import br.com.santander.agenda.model.Contact;
 import br.com.santander.agenda.model.dto.ResponseDTO;
 import br.com.santander.agenda.service.ContactService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.Authorization;
+import io.swagger.annotations.AuthorizationScope;
+import io.swagger.annotations.SwaggerDefinition;
 import java.net.URI;
+import java.util.Arrays;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
 @RequestMapping("/contact")
+@Api(
+  tags = "Contatos",
+  description = "Controller responsável pelo CRUD de contatos"
+)
+@SwaggerDefinition(produces = "Application/Json")
 public class ContactController {
   ContactService contactService;
 
@@ -25,6 +38,13 @@ public class ContactController {
   }
 
   @GetMapping
+  @ApiOperation(
+    value = "Listar todos os contatos",
+    notes = "Método responsavel por listar todos os contatos",
+    response = ResponseEntity.class,
+    produces = "Application/Json"
+  )
+  @AuthorizationScope(scope = "global", description = "Global")
   public ResponseEntity<List<Contact>> getAllContacts() {
     return ResponseEntity.ok(contactService.getAll());
   }

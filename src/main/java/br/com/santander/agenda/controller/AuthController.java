@@ -5,6 +5,7 @@ import br.com.santander.agenda.model.Admin;
 import br.com.santander.agenda.model.dto.FormLoginDto;
 import br.com.santander.agenda.model.dto.JwtResponseDTO;
 import br.com.santander.agenda.service.AdminService;
+import io.swagger.annotations.Api;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/auth")
+@Api(
+  tags = "Autenticação",
+  description = "Controller responsável pelo endpoint de autenticação"
+)
 public class AuthController {
   private AuthenticationManager authenticationManager;
 
