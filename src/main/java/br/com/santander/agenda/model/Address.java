@@ -7,9 +7,17 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "addresses")
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Address implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,37 +30,4 @@ public class Address implements Serializable {
 
   @ManyToOne
   private Contact contact;
-
-  public Address(String street, String number, String city, String type) {
-    this.street = street;
-    this.number = number;
-    this.city = city;
-    this.type = type;
-  }
-
-  protected Address() {}
-
-  public Integer getId() {
-    return id;
-  }
-
-  public String getStreet() {
-    return street;
-  }
-
-  public String getNumber() {
-    return number;
-  }
-
-  public String getCity() {
-    return city;
-  }
-
-  public String getType() {
-    return type;
-  }
-
-  public void setContact(Contact contact) {
-    this.contact = contact;
-  }
 }

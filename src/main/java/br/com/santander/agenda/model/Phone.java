@@ -7,9 +7,17 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "phones")
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Phone implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,19 +34,5 @@ public class Phone implements Serializable {
     this.residential = residential;
     this.cell = cell;
     this.message = message;
-  }
-
-  protected Phone() {}
-
-  public String getResidential() {
-    return residential;
-  }
-
-  public String getCell() {
-    return cell;
-  }
-
-  public String getMessage() {
-    return message;
   }
 }

@@ -15,11 +15,19 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 @Entity
 @Table(name = "contacts")
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 public class Contact implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,85 +41,22 @@ public class Contact implements Serializable {
 
   private String nickname;
 
-  @OneToMany(
-    mappedBy = "contact",
-    cascade = CascadeType.ALL,
-    fetch = FetchType.EAGER
-  )
+  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
   @Fetch(FetchMode.SUBSELECT)
+  @JsonIgnoreProperties("contact")
   private List<Phone> phones = new ArrayList<>();
 
-  @OneToMany(
-    mappedBy = "contact",
-    cascade = CascadeType.ALL,
-    fetch = FetchType.EAGER
-  )
+  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
   @Fetch(FetchMode.SUBSELECT)
+  @JsonIgnoreProperties("contact")
   private List<Address> addresses = new ArrayList<>();
 
-  @OneToMany(
-    mappedBy = "contact",
-    cascade = CascadeType.ALL,
-    fetch = FetchType.EAGER
-  )
+  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
   @Fetch(FetchMode.SUBSELECT)
+  @JsonIgnoreProperties("contact")
   private List<Email> emails = new ArrayList<>();
 
   @OneToOne(mappedBy = "contact")
   @JsonIgnoreProperties("contact")
   private ContactImage contactImage;
-
-  public Contact(
-    String name,
-    String surname,
-    LocalDateTime birthdate,
-    String nickname
-  ) {
-    this.name = name;
-    this.surname = surname;
-    this.birthdate = birthdate;
-    this.nickname = nickname;
-  }
-
-  protected Contact() {}
-
-  public Integer getId() {
-    return id;
-  }
-
-  public void setId(Integer id) {
-    this.id = id;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public String getSurname() {
-    return surname;
-  }
-
-  public LocalDateTime getBirthdate() {
-    return birthdate;
-  }
-
-  public String getNickname() {
-    return nickname;
-  }
-
-  public List<Phone> getPhones() {
-    return phones;
-  }
-
-  public List<Address> getAddresses() {
-    return addresses;
-  }
-
-  public List<Email> getEmails() {
-    return emails;
-  }
-
-  public ContactImage getContactImage() {
-    return contactImage;
-  }
 }

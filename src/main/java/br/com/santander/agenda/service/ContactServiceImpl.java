@@ -5,7 +5,6 @@ import br.com.santander.agenda.model.Email;
 import br.com.santander.agenda.repository.ContactRepository;
 import br.com.santander.agenda.repository.EmailRepository;
 import java.util.List;
-import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -57,23 +57,46 @@ public class ContactController {
     }
   }
 
-  @PutMapping(value = "contact/{id}")
-  public ResponseEntity<Contact> update(
+  @PutMapping(value = "/{id}")
+  public ResponseEntity<ResponseDTO> update(
     @PathVariable Integer id,
     @RequestBody Contact contact
   ) {
-    Contact response = contactService.update(contact, id);
+    try {
+      Contact response = contactService.update(contact, id);
 
-    URI uri = UriComponentsBuilder
-      .fromPath("contact/{id}")
-      .buildAndExpand(contact.getId())
-      .toUri();
-    return ResponseEntity.created(uri).body(response);
+      URI uri = UriComponentsBuilder
+        .fromPath("contact/{id}")
+        .buildAndExpand(contact.getId())
+        .toUri();
+
+      return ResponseEntity
+        .created(uri)
+        .body(
+          new ResponseDTO(
+            HttpStatus.OK.toString(),
+            "Contato atualizado com sucesso",
+            response
+          )
+        );
+    } catch (Exception e) {
+      return new ResponseEntity<ResponseDTO>(
+        new ResponseDTO(HttpStatus.BAD_REQUEST.toString(), e.getMessage()),
+        HttpStatus.BAD_REQUEST
+      );
+    }
   }
 
-  @DeleteMapping(value = "contact/{id}")
-  public ResponseEntity<?> delete(@PathVariable Integer id) {
-    contactService.delete(id);
-    return ResponseEntity.noContent().build();
+  @DeleteMapping(value = "/{id}")
+  public ResponseEntity<ResponseDTO> delete(@PathVariable Integer id) {
+    try {
+      contactService.delete(id);
+      return ResponseEntity.noContent().build();
+    } catch (Exception e) {
+      return new ResponseEntity<ResponseDTO>(
+        new ResponseDTO(HttpStatus.BAD_REQUEST.toString(), e.getMessage()),
+        HttpStatus.BAD_REQUEST
+      );
+    }
   }
 }
