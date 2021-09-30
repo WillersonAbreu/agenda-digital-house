@@ -1,6 +1,5 @@
 package br.com.santander.agenda.model.dto;
 
-import br.com.santander.agenda.model.Contact;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;

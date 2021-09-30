@@ -1,9 +1,6 @@
 package br.com.santander.agenda.config;
 
 import br.com.santander.agenda.service.JwtUserDetailsService;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,16 +16,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import springfox.documentation.builders.PathSelectors;
-import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.service.ApiInfo;
-import springfox.documentation.service.ApiKey;
-import springfox.documentation.service.AuthorizationScope;
-import springfox.documentation.service.Contact;
-import springfox.documentation.service.SecurityReference;
-import springfox.documentation.spi.DocumentationType;
-import springfox.documentation.spi.service.contexts.SecurityContext;
-import springfox.documentation.spring.web.plugins.Docket;
 
 @Configuration
 @EnableWebSecurity
@@ -69,7 +56,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
       .and()
       // Don't check the following routes
       .authorizeRequests()
-      .antMatchers("/h2-console/**", "/auth/login")
+      .antMatchers("/h2-console/**", "/auth/login", "/images/**")
       .permitAll()
       // Check the following routes
       .anyRequest()
@@ -93,7 +80,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         "/v2/api-docs",
         "/swagger-resources/**",
         "/swagger-ui/**",
-        "/webjars/**"
+        "/webjars/**",
+        "/images/**"
       );
   }
 }

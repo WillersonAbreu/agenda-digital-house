@@ -4,14 +4,17 @@ import br.com.santander.agenda.model.Contact;
 import br.com.santander.agenda.model.Email;
 import br.com.santander.agenda.repository.ContactRepository;
 import br.com.santander.agenda.repository.EmailRepository;
+import br.com.santander.agenda.util.Base64Utils;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ContactServiceImpl implements ContactService {
-  EmailRepository emailRepository;
-  ContactRepository contactRepository;
+  private EmailRepository emailRepository;
+  private ContactRepository contactRepository;
+
+  private Base64Utils base64Utils = new Base64Utils();
 
   @Autowired
   public ContactServiceImpl(
@@ -37,6 +40,18 @@ public class ContactServiceImpl implements ContactService {
   public Contact store(Contact contact) throws Exception {
     List<Email> emails = contact.getEmails();
     Boolean contactExists = false;
+    String contactImage = null;
+
+    if (
+      contact.getContactImage().getProfileImagePath().indexOf("data:image") !=
+      -1
+    ) {
+      contactImage =
+        this.base64Utils.getBase64(
+            contact.getContactImage().getProfileImagePath()
+          );
+      contact.getContactImage().setProfileImagePath(contactImage);
+    }
 
     for (Email email : emails) {
       String emailToBeSaved = email.getEmail();

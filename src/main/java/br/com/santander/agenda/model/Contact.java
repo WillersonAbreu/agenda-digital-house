@@ -56,7 +56,7 @@ public class Contact implements Serializable {
   @JsonIgnoreProperties("contact")
   private List<Email> emails = new ArrayList<>();
 
-  @OneToOne(mappedBy = "contact")
+  @OneToOne(cascade = CascadeType.ALL, mappedBy = "contact")
   @JsonIgnoreProperties("contact")
   private ContactImage contactImage;
 }
