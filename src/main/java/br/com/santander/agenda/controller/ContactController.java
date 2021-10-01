@@ -5,7 +5,6 @@ import br.com.santander.agenda.model.dto.ResponseDTO;
 import br.com.santander.agenda.service.ContactService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.AuthorizationScope;
 import io.swagger.annotations.SwaggerDefinition;
 import java.net.URI;
 import java.util.List;
@@ -29,7 +28,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 )
 @SwaggerDefinition(produces = "Application/Json")
 public class ContactController {
-  ContactService contactService;
+  private ContactService contactService;
 
   public ContactController(ContactService contactService) {
     this.contactService = contactService;
@@ -42,7 +41,6 @@ public class ContactController {
     response = ResponseEntity.class,
     produces = "Application/Json"
   )
-  @AuthorizationScope(scope = "global", description = "Global")
   public ResponseEntity<List<Contact>> getAllContacts() {
     return ResponseEntity.ok(contactService.getAll());
   }

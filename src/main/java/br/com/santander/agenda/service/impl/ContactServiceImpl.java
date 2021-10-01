@@ -1,9 +1,10 @@
-package br.com.santander.agenda.service;
+package br.com.santander.agenda.service.impl;
 
 import br.com.santander.agenda.model.Contact;
 import br.com.santander.agenda.model.Email;
 import br.com.santander.agenda.repository.ContactRepository;
 import br.com.santander.agenda.repository.EmailRepository;
+import br.com.santander.agenda.service.ContactService;
 import br.com.santander.agenda.util.Base64Utils;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;

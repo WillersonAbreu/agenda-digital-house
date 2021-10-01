@@ -1,7 +1,8 @@
-package br.com.santander.agenda.service;
+package br.com.santander.agenda.service.impl;
 
 import br.com.santander.agenda.model.Admin;
 import br.com.santander.agenda.repository.AdminRespository;
+import br.com.santander.agenda.service.AdminService;
 import java.util.ArrayList;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class AdminServiceImpl implements AdminService {
-  AdminRespository adminRespository;
+  private AdminRespository adminRespository;
 
   @Autowired
   public AdminServiceImpl(AdminRespository adminRespository) {
