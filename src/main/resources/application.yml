@@ -24,6 +24,9 @@ spring:
             fail-on-empty-beans: false
     resources:
         static-locations: "classpath:/,classpath:/images/"
+    devtools:
+        restart:
+            exclude: "images/**"
 
 logging: 
     level: 
