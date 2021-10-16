@@ -5,25 +5,34 @@ import br.com.santander.agenda.model.Email;
 import br.com.santander.agenda.repository.ContactRepository;
 import br.com.santander.agenda.repository.EmailRepository;
 import br.com.santander.agenda.service.ContactService;
+import br.com.santander.agenda.service.MailMarketService;
 import br.com.santander.agenda.util.Base64Utils;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeoutException;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Service;
 
 @Service
+@Log4j2
 public class ContactServiceImpl implements ContactService {
   private EmailRepository emailRepository;
   private ContactRepository contactRepository;
+  private MailMarketService mailMarketService;
 
   private Base64Utils base64Utils = new Base64Utils();
 
   @Autowired
   public ContactServiceImpl(
     EmailRepository emailRepository,
-    ContactRepository contactRepository
+    ContactRepository contactRepository,
+    MailMarketService mailMarketService
   ) {
     this.emailRepository = emailRepository;
     this.contactRepository = contactRepository;
+    this.mailMarketService = mailMarketService;
   }
 
   @Override
@@ -64,7 +73,35 @@ public class ContactServiceImpl implements ContactService {
     }
 
     if (!contactExists) {
-      return contactRepository.save(contact);
+      Contact response = contactRepository.save(contact);
+
+      if (response != null) {
+        response
+          .getEmails()
+          .stream()
+          .forEach(
+            m -> {
+              try {
+                SendResult res =
+                  this.mailMarketService.sendMailToTopic(m.getEmail());
+                if (res != null) {
+                  log.info(
+                    "A mensagem: {} foi enviada para o tópico: {}",
+                    res.getProducerRecord().value(),
+                    res.getProducerRecord().topic()
+                  );
+                }
+              } catch (InterruptedException e) {
+                e.printStackTrace();
+              } catch (ExecutionException e) {
+                e.printStackTrace();
+              } catch (TimeoutException e) {
+                e.printStackTrace();
+              }
+            }
+          );
+      }
+      return response;
     } else {
       throw new Exception("Já existe usuário cadastrado com o mesmo e-mail");
     }
